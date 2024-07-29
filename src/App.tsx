@@ -7,7 +7,6 @@ import {cartReducer, initialState} from "./reducers/cart-reducer.ts";
 function App() {
 
     const {
-        removeFromCart,
         decreaseQuantity,
         increaseQuantity,
         clearCart,
@@ -17,7 +16,7 @@ function App() {
         <>
             <Header
                 cart={state.cart}
-                removeFromCart={removeFromCart}
+                dispatch={dispatch}
                 decreaseQuantity={decreaseQuantity}
                 increaseQuantity={increaseQuantity}
                 clearCart={clearCart}

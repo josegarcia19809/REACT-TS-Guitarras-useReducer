@@ -1,24 +1,25 @@
-import {  useMemo } from 'react'
-import type { CartItem, Guitar } from "../types"
+import {Dispatch, useMemo} from 'react'
+import type {CartItem, Guitar} from "../types"
+import {CartActions} from "../reducers/cart-reducer.ts";
 
 type HeaderProps = {
     cart: CartItem[]
-    removeFromCart: (id: Guitar['id'] ) => void
-    decreaseQuantity: (id: Guitar['id'] ) => void
-    increaseQuantity: (id: Guitar['id'] ) => void
+    dispatch: Dispatch<CartActions>
+    decreaseQuantity: (id: Guitar['id']) => void
+    increaseQuantity: (id: Guitar['id']) => void
     clearCart: () => void
 }
 
 export default function Header({
-        cart, 
-        removeFromCart, 
-        decreaseQuantity, 
-        increaseQuantity, 
-        clearCart,
-    } : HeaderProps ) {
+                                   cart,
+                                   dispatch,
+                                   decreaseQuantity,
+                                   increaseQuantity,
+                                   clearCart,
+                               }: HeaderProps) {
     // State Derivado
-    const isEmpty = useMemo( () => cart.length === 0, [cart])
-    const cartTotal = useMemo( () => cart.reduce( (total, item ) => total + (item.quantity * item.price), 0), [cart] )
+    const isEmpty = useMemo(() => cart.length === 0, [cart])
+    const cartTotal = useMemo(() => cart.reduce((total, item) => total + (item.quantity * item.price), 0), [cart])
 
     return (
         <header className="py-5 header">
@@ -26,22 +27,24 @@ export default function Header({
                 <div className="row justify-content-center justify-content-md-between">
                     <div className="col-8 col-md-3">
                         <a href="index.html">
-                            <img className="img-fluid" src="/img/logo.svg" alt="imagen logo" />
+                            <img className="img-fluid" src="/img/logo.svg" alt="imagen logo"/>
                         </a>
                     </div>
-                    <nav className="col-md-6 a mt-5 d-flex align-items-start justify-content-end">
-                        <div 
+                    <nav
+                        className="col-md-6 a mt-5 d-flex align-items-start justify-content-end">
+                        <div
                             className="carrito"
                         >
-                            <img className="img-fluid" src="/img/carrito.png" alt="imagen carrito" />
+                            <img className="img-fluid" src="/img/carrito.png"
+                                 alt="imagen carrito"/>
 
                             <div id="carrito" className="bg-white p-3">
                                 {isEmpty ? (
                                     <p className="text-center">El carrito esta vacio</p>
                                 ) : (
-                                <>
-                                    <table className="w-100 table">
-                                        <thead>
+                                    <>
+                                        <table className="w-100 table">
+                                            <thead>
                                             <tr>
                                                 <th>Imagen</th>
                                                 <th>Nombre</th>
@@ -49,15 +52,15 @@ export default function Header({
                                                 <th>Cantidad</th>
                                                 <th></th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {cart.map( guitar => (
+                                            </thead>
+                                            <tbody>
+                                            {cart.map(guitar => (
                                                 <tr key={guitar.id}>
                                                     <td>
-                                                        <img 
-                                                            className="img-fluid" 
+                                                        <img
+                                                            className="img-fluid"
                                                             src={`/img/${guitar.image}.jpg`}
-                                                            alt="imagen guitarra" 
+                                                            alt="imagen guitarra"
                                                         />
                                                     </td>
                                                     <td>{guitar.name}</td>
@@ -72,7 +75,7 @@ export default function Header({
                                                         >
                                                             -
                                                         </button>
-                                                            {guitar.quantity}
+                                                        {guitar.quantity}
                                                         <button
                                                             type="button"
                                                             className="btn btn-dark"
@@ -85,24 +88,29 @@ export default function Header({
                                                         <button
                                                             className="btn btn-danger"
                                                             type="button"
-                                                            onClick={() => removeFromCart(guitar.id)}
+                                                            onClick={() => dispatch({
+                                                                type: "remove-from-cart",
+                                                                payload: {id: guitar.id}
+                                                            })}
                                                         >
                                                             X
                                                         </button>
                                                     </td>
                                                 </tr>
                                             ))}
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
 
-                                    <p className="text-end">Total pagar: <span className="fw-bold">${cartTotal}</span></p>
-                                </>
+                                        <p className="text-end">Total pagar: <span
+                                            className="fw-bold">${cartTotal}</span></p>
+                                    </>
                                 )}
 
-                                <button 
+                                <button
                                     className="btn btn-dark w-100 mt-3 p-2"
                                     onClick={clearCart}
-                                >Vaciar Carrito</button>
+                                >Vaciar Carrito
+                                </button>
                             </div>
                         </div>
                     </nav>
