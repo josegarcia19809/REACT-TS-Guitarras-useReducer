@@ -1,18 +1,16 @@
 import {Dispatch, useMemo} from 'react'
-import type {CartItem, Guitar} from "../types"
+import type {CartItem} from "../types"
 import {CartActions} from "../reducers/cart-reducer.ts";
 
 type HeaderProps = {
     cart: CartItem[]
     dispatch: Dispatch<CartActions>
-    decreaseQuantity: (id: Guitar['id']) => void
     clearCart: () => void
 }
 
 export default function Header({
                                    cart,
                                    dispatch,
-                                   decreaseQuantity,
                                    clearCart,
                                }: HeaderProps) {
     // State Derivado
@@ -69,7 +67,10 @@ export default function Header({
                                                         <button
                                                             type="button"
                                                             className="btn btn-dark"
-                                                            onClick={() => decreaseQuantity(guitar.id)}
+                                                            onClick={() => dispatch({
+                                                                type: "decrease-quantity",
+                                                                payload: {id: guitar.id}
+                                                            })}
                                                         >
                                                             -
                                                         </button>
