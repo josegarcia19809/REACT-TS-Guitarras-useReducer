@@ -9,7 +9,7 @@ export const useCart = () => {
     }
 
 
-    const [cart, setCart] = useState(initialCart)
+    const [cart] = useState(initialCart)
 
 
     useEffect(() => {
@@ -18,15 +18,7 @@ export const useCart = () => {
 
 
 
-
-
-    function clearCart() {
-        setCart([])
-    }
-
-
     return {
         cart,
-        clearCart
     }
 }
