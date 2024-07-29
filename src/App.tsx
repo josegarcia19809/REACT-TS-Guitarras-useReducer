@@ -9,7 +9,6 @@ function App() {
     const {
 
         cart,
-        addToCart,
         removeFromCart,
         decreaseQuantity,
         increaseQuantity,
@@ -38,7 +37,7 @@ function App() {
                         <Guitar
                             key={guitar.id}
                             guitar={guitar}
-                            addToCart={addToCart}
+                            dispatch={dispatch}
                         />
                     ))}
 
